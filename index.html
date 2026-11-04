@@ -39,6 +39,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--f-sans);font-size:14
 .eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 h1{margin:3px 0 0;font:700 25px/1 var(--f-disp);letter-spacing:.03em;text-transform:uppercase;text-wrap:balance}
 h1 .ver{text-transform:none;letter-spacing:0}
+.unit,.lbl output{text-transform:none!important;letter-spacing:0}
 .hbtns{display:flex;gap:5px;align-items:center;flex-shrink:0}
 .head>div:first-child{min-width:0}
 .lang{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
@@ -818,7 +819,7 @@ $('thBtn').onclick=()=>{theme=theme==='dark'?'light':'dark';try{localStorage.set
 function applyLang(){renderLive();if(tab==='plan')renderPlan();document.documentElement.lang=state.lang;
   document.querySelectorAll('[data-i]').forEach(el=>{if(el.dataset.i!=='title')el.textContent=t(el.dataset.i);});
   document.querySelector('[data-i="maxNote"]').textContent=t('maxNote').replace('{v}',fmt(SC[cur].vmax));
-  $('eyebrow').textContent=(SC[cur].est?'':'Q5 · ')+fmtQ(SC[cur].Q)+' m³/s · '+t('reach');
+  $('eyebrow').innerHTML=(SC[cur].est?'':'Q5 · ')+fmtQ(SC[cur].Q)+' <span class="unit">m³/s</span> · '+t('reach');
   renderFlow();
   document.querySelectorAll('[data-ia]').forEach(el=>el.setAttribute('aria-label',t(el.dataset.ia)));
   document.title=t('title');if($('thIco').innerHTML){const lab=theme==='dark'?t('thLight'):t('thDark');$('thBtn').title=lab;$('thBtn').setAttribute('aria-label',lab);}$('tgl').textContent=$('panel').classList.contains('min')?t('show'):t('hide');
