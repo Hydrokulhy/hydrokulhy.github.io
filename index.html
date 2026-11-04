@@ -32,7 +32,7 @@ html.light .modes .race{background:#fff}
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-sans);font-size:14px;overflow:hidden}
 #map{position:absolute;inset:0;background:var(--map)}
-#cv{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+#cv{display:block;width:100%;height:100%;cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none}
 #cv.drag{cursor:grabbing}
 .panel{-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);position:absolute;top:calc(12px + env(safe-area-inset-top,0px));left:calc(12px + env(safe-area-inset-left,0px));width:304px;max-height:calc(100% - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);display:flex;flex-direction:column}
 .head{padding:14px 16px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
@@ -145,6 +145,7 @@ html.light .bestTag{color:#15803d}
 .pickBar{position:absolute;left:50%;transform:translateX(-50%);top:calc(12px + env(safe-area-inset-top,0px));background:#7c3aed;color:#fff;border-radius:99px;padding:6px 6px 6px 14px;display:flex;gap:10px;align-items:center;font:600 13px var(--f-sans);box-shadow:var(--shadow);max-width:calc(100% - 140px)}
 body.picking .read{display:none}
 .pickBar button{border:0;border-radius:99px;background:#fff;color:#7c3aed;font:700 12.5px var(--f-sans);padding:5px 12px;cursor:pointer;white-space:nowrap}
+.grab{display:none}
 .toggle{border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:6px;padding:4px 8px;font:500 12px var(--f-sans);cursor:pointer;display:none}
 .body{padding:12px 16px 16px;display:flex;flex-direction:column;gap:16px}
 .sec{display:flex;flex-direction:column;gap:8px}
@@ -175,6 +176,19 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .scale{color:var(--fg)!important;position:absolute;left:calc(332px + env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));font-family:var(--f-mono);font-size:11px;color:#1b2422}
 .scale div{border:1.5px solid var(--fg);border-top:0;height:6px;margin-top:2px}
 @media (max-width:640px){
+  html:not(.fd) .panel{transition:transform .22s ease}
+  html:not(.fd) .panel.dragging{transition:none}
+  html:not(.fd) .grab{display:flex;justify-content:center;align-items:center;height:22px;cursor:grab;touch-action:none;flex:none}
+  html:not(.fd) .grab span{width:44px;height:5px;border-radius:3px;background:var(--muted);opacity:.7}
+  html:not(.fd) .panel.min .luck,.panel.min .eyebrow{display:none}
+  html:not(.fd) .panel.min .head{border-bottom:0;padding-block:4px 10px}
+  html:not(.fd) .panel.min h1{font-size:19px}
+  html:not(.fd) .panel.min .vbtn,html:not(.fd) .panel.min .lang{display:none}
+  html:not(.fd) .head h1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  html:not(.fd) .head{touch-action:pan-y}
+  html:not(.fd) .toggle{display:inline-flex!important;align-items:center;gap:5px;font-weight:600;background:var(--accent);color:#06121b;border-color:var(--accent)}
+  html:not(.fd) .toggle::before{content:"";width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid currentColor}
+  html:not(.fd) .panel.min .toggle::before{border-top:0;border-bottom:6px solid currentColor}
   html:not(.fd) .layers{right:calc(58px + env(safe-area-inset-right,0px))}
   html:not(.fd) .lyPop{right:-46px;min-width:230px}
   html:not(.fd) .panel{top:auto;left:0;right:0;bottom:0;width:auto;border-radius:12px 12px 0 0;max-height:62%;padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
@@ -200,6 +214,19 @@ html.fm .layers{right:calc(58px + env(safe-area-inset-right,0px))}
   html.fm .scale{display:none}
   html.fm .panel.min .tabs{display:none}
   html.fm .panel{max-height:58%}
+html.fm .panel{transition:transform .22s ease}
+html.fm .panel.dragging{transition:none}
+html.fm .grab{display:flex;justify-content:center;align-items:center;height:22px;cursor:grab;touch-action:none;flex:none}
+html.fm .grab span{width:44px;height:5px;border-radius:3px;background:var(--muted);opacity:.7}
+html.fm .panel.min .luck,.panel.min .eyebrow{display:none}
+html.fm .panel.min .head{border-bottom:0;padding-block:4px 10px}
+html.fm .panel.min h1{font-size:19px}
+html.fm .panel.min .vbtn,html.fm .panel.min .lang{display:none}
+html.fm .head h1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.fm .head{touch-action:pan-y}
+html.fm .toggle{display:inline-flex!important;align-items:center;gap:5px;font-weight:600;background:var(--accent);color:#06121b;border-color:var(--accent)}
+html.fm .toggle::before{content:"";width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid currentColor}
+html.fm .panel.min .toggle::before{border-top:0;border-bottom:6px solid currentColor}
   html.fm .zoom button{width:40px;height:40px}
   html.fm .lyBtn{height:40px}
   html.fm .modes .race{min-height:80px}
@@ -213,6 +240,7 @@ html.fm .layers{right:calc(58px + env(safe-area-inset-right,0px))}
 <div id="map"><canvas id="cv"></canvas></div>
 
 <aside class="panel" id="panel">
+  <div class="grab" id="grab" role="button" tabindex="0" aria-label="Menu"><span></span></div>
   <button class="luck" id="luck"><span class="luckDot"></span><span data-i="luck">Hodně štěstí na Head of Prague!!</span><span class="luckGo" data-i="luckGo">trať →</span></button>
   <div class="head">
     <div>
@@ -375,12 +403,12 @@ const I18N={
  cs:{title:'HydroKulhy v.1.2.1',vel:'Rychlost [m/s]',disp:'Zobrazení',dispAria:'Zobrazení rychlostí',disc:'Třídy',cont:'Plynulé',max:'Horní mez škály',
   maxNote:'Mez se nastaví sama podle průtoku. Nižší zvýrazní proudění v korytě, vyšší ukáže špičky u jezů a pilířů. Maximum v úseku je {v} m/s.',scen:'Průtok v mapě',qNow:'Klikni: nastavit podle aktuálního průtoku',qHint:'Mapa se přepne na poslední měření ČHMÚ v Chuchli ({q} m³/s, {t}) a podle něj přepočítá rychlosti i osu proudnice.',howT:'Jak to funguje',how:['Průtok nastavíš tlačítkem podle aktuálního stavu, posuvníkem nebo předvolbou. Pro každý průtok se zobrazí vlastní rychlosti a vlastní osa proudnice.','Osa proudnice (bílá čára) vede tam, kde je při zvoleném průtoku proud nejsilnější. Při nízkém průtoku se v ramenech a u ostrovů posouvá jinam než při povodni.','Q5 je výsledek hydraulického modelu. Ostatní průtoky jsou odhad: hladina z jezů, rozdělení proudu podle hloubky dna z DMT, doladěno na Q5 a ověřeno na hladině v Chuchli.','Hodnoty z ČHMÚ se do stránky vkládají při aktualizaci, stránka je nenačítá sama. Čas posledního měření je uvedený nahoře v bloku Vltava teď.'],estL:'odhad',mdlL:'model',qNoteE:'Odhad pro {q} m³/s: hladina podle jezů (ověřeno na hladině v Chuchli), proud rozdělený podle hloubky z DMT a doladěný na modelu Q5. Není to výsledek hydraulického modelu, ber ho orientačně.',qNoteM:'Výsledek hydraulického modelu pro Q5 (asi 1 180 m³/s).',pQa:'Qa 120',pS1:'1. SPA 450',pS2:'2. SPA 1000',pQ5:'Q5',reach:'Modřany – Karlův most',op:'Průhlednost rychlostí',
   ax:'Osa proudnice pro zvolený průtok',hs:'Stínovaný terén (DMT)',hsTop:'Stínování přes rychlosti',axNote:'Osa vede po pásu nejvyšších rychlostí zvoleného průtoku, od jezu Modřany po Karlův most. Přepnutím průtoku se přepočítá.',
-  hint:'Najetím nebo klepnutím do mapy zobrazíte rychlost v daném bodě.',zin:'Přiblížit',zout:'Oddálit',zfit:'Celý rozsah',hide:'Skrýt',show:'Legenda',
+  hint:'Najetím nebo klepnutím do mapy zobrazíte rychlost v daném bodě.',zin:'Přiblížit',zout:'Oddálit',zfit:'Celý rozsah',hide:'Skrýt',show:'Menu',
   rlbl:'rychlost v bodě',fastest:'nejrychlejší',thLight:'Světlý režim',thDark:'Tmavý režim',luck:'Hodně štěstí na Head of Prague!!',luckGo:'trať →',gpxDl:'Stáhnout GPX',gpxCp:'Kopírovat GPX',gpxSaved:'Uloženo. Na Claude se soubor stáhne jako .txt – před nahráním do hodinek nebo aplikace přejmenuj koncovku na .gpx.',gpxDeclined:'Stažení zrušeno.',gpxNo:'Stažení tady nejde. Použij Kopírovat GPX a obsah ulož do souboru s koncovkou .gpx.',gpxCopied:'GPX je ve schránce. Vlož ho do souboru s koncovkou .gpx.',gpxSel:'Kopírování nejde, text je označený níže – zkopíruj ho ručně.',gpxNone:'Nejdřív vyber trasu.',vMob:'Mobilní zobrazení',vDesk:'Plné zobrazení',pickA:'Klikni do mapy: start A',pickB:'Klikni do mapy: cíl B',pickP:'Klikej body trasy do mapy',done:'Hotovo',mAB:'A → B po ose',mPrim:'Primátorky',mHeadSub:'6,26 km · na čas',mPrimSub:'1000 · 1500 · 2000 m',startD:'start {d}',mCust:'Vlastní trasa',cuUndo:'Zpět',cuClr:'Smazat',cuStart:'Začít klikat body',cuStop:'Hotovo',custNote:'Klikej do mapy body trasy v pořadí, jak pojedeš. Spočítám délku, čas a vliv proudu ve směru jízdy.',custNeed:'Přidej aspoň dva body trasy.',loading:'Načítám rychlosti…',rCurAl:'průměrný proud ve směru jízdy',lane:'dráha',len:'délka',time:'čas',vsBest:'ztráta',start:'START',finish:'CÍL',headNote:'Head of Prague: start těsně nad Barrandovským mostem, po proudu u pravého břehu, otočka hned za Palackého mostem, proti proudu u levého břehu do cíle u věže. Trasa je vedená asi 20 m od břehu.',primNote:'Žluté bójky po 12,5 m oddělují dráhy, oranžové značí každých 250 m, červené posledních 250 m. Dráhy jsou široké 18 m, dráha 1 je u pravého břehu. Starty na 1000, 1500 a 2000 m jsou šikmé (odstupňované), aby každá dráha měřila přesně zvolenou délku i přes zatáčku u Vyšehradu. Cíl je podle mapy závodu u Rašínova nábřeží. Cíl je kolmo přes řeku. Klikni na dráhu v tabulce a zobrazí se v grafu.',tabMap:'Mapa',tabPlan:'Plánovač trasy',lyT:'Vrstvy',pick:'v mapě',picking:'klikni do mapy',swap:'⇅ Prohodit směr',plTl:'Tempo na stojaté vodě [min:s / 500 m]',plAx:'Na ose',plMn:'Průměr profilu',plNote:'Výpočet sčítá čas po 25 m: rychlost lodi na stojaté vodě plus proud po proudu, minus proud proti proudu. Nebere v úvahu vítr, vlny ani zatáčky. „Na ose“ je nejsilnější proud (výhodné po proudu), „Průměr profilu“ je průměr přes celou šířku řeky (blíž tomu, co jede loď proti proudu u kraje).',plQ:'Proud pro průtok {q} m³/s{e}. Průtok změníš v záložce Mapa.',plStart:'Začátek úseku (nad jezem Modřany)',plEnd:'Konec úseku (pod Karlovým mostem)',plMapPt:'Bod z mapy · km {k}',grpRw:'Loděnice',grpBr:'Mosty',grpWr:'Jezy',grpOt:'Ostatní',rSplit:'tempo na trase / 500 m',rDelta:'proud {w}',rGain:'ušetří',rLoss:'zdrží',rDist:'délka trasy',rDir:'směr',rDn:'po proudu',rUp:'proti proudu',rCur:'průměrný proud',rTime:'čas (bez proudu {t})',segT:'Po 500 m (od A): ',warnW:'Trasa vede přes {w}. Loď musí přes plavební komoru nebo se přenáší, výpočet s tím nepočítá.',warnS:'Start a cíl jsou stejné, vyber dva různé body.',badT:'Zadej tempo jako min:s, třeba 2:05.',liveH:'Vltava teď · Praha-Chuchle',kQ:'průtok',kH:'vodní stav',kT:'teplota vody',st_sucho:'Sucho',st_norm:'Normální stav',st_spa1:'1. SPA bdělost',st_spa2:'2. SPA pohotovost',st_spa3:'3. SPA ohrožení',st_ext:'Extrémní povodeň',thr:'Prahy průtoku [m³/s]',now:'teď',liveNote:'Měření ČHMÚ k {t}, tendence: {tr}. Stránka hodnoty nenačítá živě, jsou vložené při poslední aktualizaci. Aktuálně na',spark:'průtok za posledních 6 h',wr:'Jezy',br:'Mosty',rw:'Veslařské loděnice',rax:'osa proudnice',dry:'mimo vodu',kmU:'km'},
  en:{title:'HydroKulhy v.1.2.1',vel:'Velocity [m/s]',disp:'Display',dispAria:'Velocity display',disc:'Classes',cont:'Continuous',max:'Scale maximum',
   maxNote:'The maximum follows the discharge automatically. A lower one brings out the flow in the channel, a higher one shows the peaks at weirs and piers. The maximum in this reach is {v} m/s.',scen:'Discharge on map',qNow:'Click: set to current discharge',qHint:'The map switches to the latest ČHMÚ reading at Chuchle ({q} m³/s, {t}) and recalculates the velocities and the flow axis for it.',howT:'How it works',how:['Set the discharge with the current-discharge button, the slider or a preset. Each discharge has its own velocities and its own flow axis.','The flow axis (white line) runs where the current is strongest at the chosen discharge. At low flows it shifts in side arms and around islands compared with a flood.','Q5 is a hydraulic model result. Other discharges are estimates: water level from the weirs, flow split by bed depth from the DTM, tuned to Q5 and checked against the water level at Chuchle.','ČHMÚ values are inserted into the page when it is updated; the page does not load them by itself. The time of the latest reading is shown in the Vltava now block.'],estL:'estimate',mdlL:'model',qNoteE:'Estimate for {q} m³/s: water level from the weirs (checked against the level at Chuchle), flow distributed by depth from the DTM and tuned to the Q5 model. Not a hydraulic model result; treat it as indicative.',qNoteM:'Hydraulic model result for Q5 (about 1,180 m³/s).',pQa:'Qa 120',pS1:'1st SPA 450',pS2:'2nd SPA 1000',pQ5:'Q5',reach:'Modřany – Charles Bridge',op:'Velocity opacity',
   ax:'Flow axis for the chosen discharge',hs:'Hillshade (DTM)',hsTop:'Hillshade over velocity',axNote:'The axis follows the band of highest velocity for the selected discharge, from Modřany weir to Charles Bridge. It changes with the discharge.',
-  hint:'Hover or tap the map to read the velocity at that point.',zin:'Zoom in',zout:'Zoom out',zfit:'Full extent',hide:'Hide',show:'Legend',
+  hint:'Hover or tap the map to read the velocity at that point.',zin:'Zoom in',zout:'Zoom out',zfit:'Full extent',hide:'Hide',show:'Menu',
   rlbl:'velocity at point',fastest:'fastest',thLight:'Light mode',thDark:'Dark mode',luck:'Good luck at the Head of Prague!!',luckGo:'course →',gpxDl:'Download GPX',gpxCp:'Copy GPX',gpxSaved:'Saved. On Claude the file is saved as .txt – rename the extension to .gpx before loading it into a watch or app.',gpxDeclined:'Download cancelled.',gpxNo:'Downloads do not work here. Use Copy GPX and save the text as a .gpx file.',gpxCopied:'GPX copied. Paste it into a file ending in .gpx.',gpxSel:'Copy is blocked; the text is selected below – copy it by hand.',gpxNone:'Pick a route first.',vMob:'Mobile view',vDesk:'Full view',pickA:'Tap the map: start A',pickB:'Tap the map: finish B',pickP:'Tap route points on the map',done:'Done',mAB:'A → B on axis',mPrim:'Primátorky',mHeadSub:'6.26 km · time trial',mPrimSub:'1000 · 1500 · 2000 m',startD:'start {d}',mCust:'Custom route',cuUndo:'Undo',cuClr:'Clear',cuStart:'Start clicking points',cuStop:'Done',custNote:'Click the route points on the map in the order you will row. I calculate the length, time and the effect of the current along the direction of travel.',custNeed:'Add at least two route points.',loading:'Loading velocities…',rCurAl:'mean current along travel',lane:'lane',len:'length',time:'time',vsBest:'loss',start:'START',finish:'FINISH',headNote:'Head of Prague: start just above Barrandov Bridge, downstream along the right bank, turn after Palacký Bridge, upstream along the left bank to the finish at the tower. The route runs about 20 m from the bank.',primNote:'Yellow buoys every 12.5 m separate the lanes, orange ones mark every 250 m, red ones the last 250 m. Lanes are 18 m wide, lane 1 is at the right bank. The 1000, 1500 and 2000 m starts are staggered so that every lane is exactly the chosen length despite the Vyšehrad bend. The finish follows the race map, by Rašínovo nábřeží. The finish is straight across. Click a lane in the table to show it in the chart.',tabMap:'Map',tabPlan:'Route planner',lyT:'Layers',pick:'on map',picking:'click the map',swap:'⇅ Reverse direction',plTl:'Still-water pace [min:s / 500 m]',plAx:'On axis',plMn:'Section mean',plNote:'The calculation adds up time every 25 m: boat speed in still water plus the current downstream, minus the current upstream. Wind, waves and bends are not included. “On axis” is the strongest current (best downstream); “Section mean” averages the whole width (closer to rowing upstream near the bank).',plQ:'Current for {q} m³/s{e}. Change the discharge in the Map tab.',plStart:'Start of reach (above Modřany weir)',plEnd:'End of reach (below Charles Bridge)',plMapPt:'Map point · km {k}',grpRw:'Boathouses',grpBr:'Bridges',grpWr:'Weirs',grpOt:'Other',rSplit:'pace on route / 500 m',rDelta:'the current {w}',rGain:'saves',rLoss:'costs',rDist:'route length',rDir:'direction',rDn:'downstream',rUp:'upstream',rCur:'mean current',rTime:'time (still water {t})',segT:'Per 500 m (from A): ',warnW:'The route crosses {w}. The boat has to use the lock or be carried; this is not included.',warnS:'Start and finish are the same; pick two different points.',badT:'Enter the pace as min:s, e.g. 2:05.',liveH:'Vltava now · Praha-Chuchle',kQ:'discharge',kH:'water level',kT:'water temp.',st_sucho:'Drought',st_norm:'Normal',st_spa1:'Flood watch (1st)',st_spa2:'Flood warning (2nd)',st_spa3:'Flood danger (3rd)',st_ext:'Extreme flood',thr:'Discharge thresholds [m³/s]',now:'now',liveNote:'ČHMÚ measurement as of {t}, trend: {tr}. The page does not load values live; they were inserted at the last update. Live data at',spark:'discharge, last 6 h',wr:'Weirs',br:'Bridges',rw:'Rowing boathouses',rax:'flow axis',dry:'outside water',kmU:'km'}};
 // QGIS style (rychlost_styl.qml): Turbo, 15 discrete equal-interval classes
 const PAL=["#30123b","#4147ad","#4777ef","#38a5fb","#1bd0d5","#26eda6","#64fd6a","#a4fc3c","#d3e835","#f5c63a","#fe992c","#f36315","#d93807","#b01901","#7a0403"];
@@ -648,7 +676,20 @@ $('hsTop').onchange=e=>{state.hsTop=e.target.checked;save();draw();};
 $('zin').onclick=()=>zoomAt(0.5,W/2,H/2);
 $('zout').onclick=()=>zoomAt(2,W/2,H/2);
 $('zfit').onclick=fit;
-$('tgl').onclick=()=>{const p=$('panel');const m=p.classList.toggle('min');$('tgl').textContent=m?t('show'):t('hide');$('tgl').setAttribute('aria-expanded',!m);};
+function setMin(m){const p=$('panel');p.classList.toggle('min',m);delete p.dataset.auto;$('tgl').textContent=m?t('show'):t('hide');$('tgl').setAttribute('aria-expanded',!m);}
+$('tgl').onclick=()=>setMin(!$('panel').classList.contains('min'));
+(function(){const p=$('panel');let y0=null,dy=0,moved=false,id=null;
+  const start=e=>{if(!isMob())return;if(e.target.closest('button:not(#grab),a,input,select,textarea'))return;y0=e.clientY;dy=0;moved=false;id=e.pointerId;p.classList.add('dragging');try{e.currentTarget.setPointerCapture(id);}catch(_){}};
+  const move=e=>{if(y0==null||e.pointerId!==id)return;dy=e.clientY-y0;if(Math.abs(dy)>6)moved=true;
+    if(moved){const min=p.classList.contains('min');const v=min?Math.min(0,dy):Math.max(0,dy);p.style.transform='translateY('+v+'px)';}};
+  const end=e=>{if(y0==null||e.pointerId!==id)return;p.classList.remove('dragging');p.style.transform='';const min=p.classList.contains('min');
+    if(moved){if(!min&&dy>50)setMin(true);else if(min&&dy<-30)setMin(false);}
+    else if(e.target.closest('#grab'))setMin(!min);
+    else if(min&&e.target.closest('.head'))setMin(false);
+    y0=null;};
+  for(const el of [$('grab'),p.querySelector('.head')]){el.addEventListener('pointerdown',start);el.addEventListener('pointermove',move);el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);}
+  $('grab').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setMin(!p.classList.contains('min'));}});
+})();
 function scale(){const target=view.res*110,p=10**Math.floor(Math.log10(target)),n=[1,2,5,10].map(k=>k*p).filter(k=>k<=target).pop();
   $('scaleBar').style.width=(n/view.res)+'px';$('scaleTxt').textContent=n>=1000?(n/1000)+' km':n+' m';}
 function liveLevel(q){const t=LIVE.thr;return q>=t.ext?'ext':q>=t.spa3?'spa3':q>=t.spa2?'spa2':q>=t.spa1?'spa1':q<t.sucho?'sucho':'norm';}
